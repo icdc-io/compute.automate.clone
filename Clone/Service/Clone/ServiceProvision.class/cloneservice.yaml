@@ -11,5 +11,8 @@ object:
   fields:
   - Initialization:
       value: "/Service/Clone/Methods/Initialization"
+  - QuotaCheck:
+      value: "/Service/Clone/Methods/QuotaCheck"
+      on_error: rejected
   - Create_Snapshot:
       value: "/Service/Clone/Methods/CreateSnapshot"

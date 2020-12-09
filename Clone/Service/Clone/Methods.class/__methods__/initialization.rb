@@ -1,6 +1,7 @@
 #
 # Description: <Method description here>
 #
+
 task = $evm.root['service_template_provision_task']
 new_service = task.destination
 # need to set 'admin' as owner to skip problems in error case, real user will be set in GO-libraries_rethad method-lib
