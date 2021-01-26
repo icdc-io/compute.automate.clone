@@ -6,9 +6,11 @@ def send_email(parent_vm, new_vm)
   miq_help = $evm.root['miq_help']
   new_service_name = new_vm.service.name
   new_service_id = new_vm.service.id
+  hostname = $evm.vmdb(:MiqServer).first.hostname
+  hostname ||= "compute.#{$evm.vmdb(:MiqRegion).my_region}.icdc.io"
+  link_service = "#{hostname}/ui/service/services/#{new_service_id}"
   link_help_conn = "#{miq_help}/compute/ru/Use_of_the_Services/Service_Access.html"
   link_help_clone = "#{miq_help}/compute/ru/Use_of_the_Services/Clone_Service.html"
-  link_service = "#{$evm.root['miq_service_url']}/services/#{new_service_id}"
   ip = wait_ip(new_vm)
   subject = "[ICDC.IO] Cloning of the service - #{parent_vm.service.name}"
   body = "<h3>Hello, #{user.name}!</h3>"
