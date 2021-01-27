@@ -8,7 +8,7 @@ source = service.tenant.combined_quotas
 available = {
               :cpu                 => source[:cpu_allocated][:available].to_i,
               :memory              => source[:mem_allocated][:available].to_s(:human_size).to_i, 
-              :storage             => source[:storage_allocated][:available].to_s(:human_size).to_i
+              :storage             => (source[:storage_allocated][:available].to_f / 2**(10*3)).to_i
         	}
 $evm.log("info", "Quota available: (:cpu=>#{available[:cpu]}, :memory=>#{available[:memory]} , storage=>#{available[:storage]}" )
 
