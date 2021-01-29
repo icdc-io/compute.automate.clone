@@ -19,6 +19,26 @@ object:
       datatype: string
       priority: 1
       owner: 
+      default_value: Qual_c0mm
+      substitute: true
+      message: create
+      visibility: 
+      collect: 
+      scope: 
+      description: 
+      condition: 
+      on_entry: 
+      on_exit: 
+      on_error: 
+      max_retries: 
+      max_time: 
+  - field:
+      aetype: state
+      name: QuotaCheck
+      display_name: 
+      datatype: 
+      priority: 2
+      owner: 
       default_value: 
       substitute: true
       message: create
@@ -37,7 +57,7 @@ object:
       name: Create_Snapshot
       display_name: 
       datatype: 
-      priority: 2
+      priority: 3
       owner: 
       default_value: 
       substitute: true
