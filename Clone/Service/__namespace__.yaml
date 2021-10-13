@@ -4,9 +4,9 @@ version: 1.0
 object:
   attributes:
     name: Service
-    description: ''
-    display_name: 
-    priority: 
-    enabled: 
-    ancestry: '26000000000230'
+    description:
+    display_name:
+    priority:
+    enabled:
+    ancestry: '26000000000439'
     relative_path: Service

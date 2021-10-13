@@ -1,0 +1,13 @@
+---
+object_type: method
+version: 1.0
+object:
+  attributes:
+    name: post_provisioning
+    display_name:
+    description:
+    scope: instance
+    language: ruby
+    location: inline
+    relative_path: Service/Provisioning/StateMachines/ServiceProvision_Clone/post_provisioning
+  inputs: []
