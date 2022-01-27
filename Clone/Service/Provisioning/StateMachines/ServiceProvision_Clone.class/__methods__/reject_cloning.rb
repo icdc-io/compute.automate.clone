@@ -1,4 +1,5 @@
 $evm.instantiate("/TemplateProvisioning/Configuration/Email/Default")
+$evm.instantiate("/ICDC/Service/Email/Email/Email")
 
 def reject_cloning_email(service)
   attributes = $evm.object("/TemplateProvisioning/Configuration/Email/Default").attributes
@@ -6,8 +7,9 @@ def reject_cloning_email(service)
   user = $evm.vmdb(:User).find_by(:email => to)
   signature = attributes["signature"].to_s
   from = attributes["from"].to_s
+  attributes = $evm.object("/ICDC/Service/Email/Email/Email").attributes
   miq_help = attributes["miq_help"].to_s
-  link_help_clone = "#{miq_help}/compute/ru/Use_of_the_Services/Clone_Service.html"
+  link_help_clone = "#{miq_help}/compute/ru/Use_of_the_Services/Configuration/Clone_Service.html"
   subject = "[ICDC.IO] Cloning of the service"
   body = "<h3>Hello, #{user.name}!</h3>"
   body += "<p>Your request to clone the service #{service.name} can't be complited while other cloning is running.</p>"

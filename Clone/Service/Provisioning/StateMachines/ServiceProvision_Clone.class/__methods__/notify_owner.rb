@@ -1,15 +1,18 @@
+$evm.instantiate("/ICDC/Service/Email/Email/Email")
+
 def send_email(service, ips)
+  attributes = $evm.object("/ICDC/Service/Email/Email/Email").attributes
   user = service.evm_owner
   to = user.email
-  footer = $evm.root['footer']
+  footer = attributes['footer']
   from = $evm.root['from']
-  miq_help = $evm.root['miq_help']
+  miq_help = attributes['miq_help']
   new_service_name = service.name
   new_service_id = service.id
   source_service = $evm.vmdb(:Service).find($evm.root['dialog_src_service_id'])
-  link_help_conn = "#{miq_help}/compute/ru/Use_of_the_Services/Service_Access.html"
-  link_help_clone = "#{miq_help}/compute/ru/Use_of_the_Services/Clone_Service.html"
-  link_service = "#{$evm.root['miq_service_url']}/services/#{new_service_id}"
+  link_help_conn = "#{miq_help}/compute/ru/Use_of_the_Services/VM/Service_Access.html"
+  link_help_clone = "#{miq_help}/compute/ru/Use_of_the_Services/Configuration/Clone_Service.html"
+  link_service = "#{attributes['miq_service_url']}/services/#{new_service_id}"
   subject = "[ICDC.IO] Cloning of the service - #{source_service.name}"
   body = "<h3>Hello, #{user.name}!</h3>"
   body += "Your request to clone the service has been completed."
