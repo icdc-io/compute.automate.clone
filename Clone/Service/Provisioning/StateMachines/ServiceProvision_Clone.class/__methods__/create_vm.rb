@@ -29,8 +29,6 @@ def create_vm(snapshot, vm, service)
   vm.ext_management_system.connect.system_service.vms_service.add_from_snapshot(OvirtSDK4::Vm.new(h))
 end
 
-
-
 snapshots_names = $evm.get_state_var(:snapshots_names)
 vms_names = []
 snapshots_names.each do |snapshot_name|
