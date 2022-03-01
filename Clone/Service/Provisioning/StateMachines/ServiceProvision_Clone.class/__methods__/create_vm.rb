@@ -29,14 +29,24 @@ def create_vm(snapshot, vm, service)
   vm.ext_management_system.connect.system_service.vms_service.add_from_snapshot(OvirtSDK4::Vm.new(h))
 end
 
-snapshots_names = $evm.get_state_var(:snapshots_names)
-vms_names = []
-snapshots_names.each do |snapshot_name|
-  snapshot = $evm.vmdb(:Snapshot).find_by(:name => snapshot_name)
-  vm = $evm.vmdb(:Vm).find(snapshot_name.split('-')[0])
-  service = $evm.root['service_template_provision_task'].destination
-  new_vm_name = "#{prefix(service)}_" + snapshot_name
-  vms_names << new_vm_name
-  create_vm(snapshot, vm, service)
+
+begin
+  snapshots_names = $evm.get_state_var(:snapshots_names)
+  vms_names = []
+  snapshots_names.each do |snapshot_name|
+    snapshot = $evm.vmdb(:Snapshot).find_by(:name => snapshot_name)
+    vm = $evm.vmdb(:Vm).find(snapshot_name.split('-')[0])
+    service = $evm.root['service_template_provision_task'].destination
+    new_vm_name = "#{prefix(service)}_" + snapshot_name
+    vms_names << new_vm_name
+    create_vm(snapshot, vm, service)
+  end
+  $evm.set_state_var(:vms_names, vms_names)
+rescue => err
+  $evm.log(:error, "[#{err}]\n#{err.backtrace.join("\n")}")
+  $evm.vmdb(:Service).find($evm.root['dialog_src_service_id']).custom_set(:cloning, nil)
+  $evm.root['ae_reason'] = "Unspecified error, see automation.log for backtrace"
+  $evm.root['ae_result'] = 'error'
+  $evm.root['service_template_provision_task'].destination.remove_from_vmdb
+  exit MIQ_ABORT
 end
-$evm.set_state_var(:vms_names, vms_names)
