@@ -17,6 +17,7 @@ unless source_service.custom_get(:cloning)
 else
   reject_cloning_email(service)
   service.remove_from_vmdb
+  exit MIQ_ABORT
 end
 
 
