@@ -9,5 +9,7 @@ object:
     scope: instance
     language: ruby
     location: inline
+    embedded_methods:
+    - "/Service/Provisioning/StateMachines/ServiceProvision_Clone/quota_exceeding"
     relative_path: Service/Provisioning/StateMachines/ServiceProvision_Clone/check_quotas
   inputs: []
