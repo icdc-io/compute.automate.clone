@@ -12,7 +12,7 @@ def send_email(service, ips)
   source_service = $evm.vmdb(:Service).find($evm.root['dialog_src_service_id'])
   link_help_conn = "#{miq_help}/compute/ru/Use_of_the_Services/VM/Service_Access.html"
   link_help_clone = "#{miq_help}/compute/ru/Use_of_the_Services/Configuration/Clone_Service.html"
-  link_service = "#{attributes['miq_service_url']}#{new_service_id}"
+  link_service = "https://compute.#{location}.icdc.io/ui/service/services/#{new_service_id}"
   subject = "[ICDC.IO] Cloning of the service - #{source_service.name}"
   body = "<h3>Hello, #{user.name}!</h3>"
   body += "Your request to clone the service has been completed."
@@ -43,9 +43,12 @@ def send_email(service, ips)
        </table>"
   body += "<br><br><a href='#{link_help_clone}'>More info</a> about service cloning.<br><br>"
   body += footer.to_s
-
   $evm.log("info", "Sending email to <#{to}> from <#{from}> subject: <#{subject}> body: #{body}")
   $evm.execute('send_email', to, from, subject, body)
+end
+
+def location
+  service.region_description.downcase
 end
 
 task = $evm.root['service_template_provision_task']
