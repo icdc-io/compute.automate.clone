@@ -1,7 +1,7 @@
-$evm.instantiate("/ICDC/Service/Email/Email/Email")
+$evm.instantiate("/ICDC/Service/Email/Email/Email#{ENV['CPV_NAME']}")
 
 def send_email(service, ips)
-  attributes = $evm.object("/ICDC/Service/Email/Email/Email").attributes
+  attributes = $evm.object("/ICDC/Service/Email/Email/Email#{ENV['CPV_NAME']}").attributes
   user = service.evm_owner
   to = user.email
   footer = attributes["footer"]
@@ -12,8 +12,8 @@ def send_email(service, ips)
   source_service = $evm.vmdb(:Service).find($evm.root['dialog_src_service_id'])
   link_help_conn = "#{miq_help}/compute/ru/Use_of_the_Services/VM/Service_Access.html"
   link_help_clone = "#{miq_help}/compute/ru/Use_of_the_Services/Configuration/Clone_Service.html"
-  link_service = "https://compute.#{location}.icdc.io/ui/service/services/#{new_service_id}"
-  subject = "[ICDC.IO] Cloning of the service - #{source_service.name}"
+  link_service = "https://compute.#{location(service)}.#{ENV['CPV_NAME'].downcase}.io/ui/service/services/#{new_service_id}"
+  subject = "[#{ENV['CPV_NAME']}.IO] Cloning of the service - #{source_service.name}"
   body = "<h3>Hello, #{user.name}!</h3>"
   body += "Your request to clone the service has been completed."
   body += "<br/><br/>The service was created with the following characteristics:"
@@ -47,7 +47,7 @@ def send_email(service, ips)
   $evm.execute('send_email', to, from, subject, body)
 end
 
-def location
+def location(service)
   service.region_description.downcase
 end
 
@@ -64,4 +64,3 @@ else
   service.vms[0].ext_management_system.refresh
   network_manager.refresh
 end
-
