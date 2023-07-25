@@ -1,7 +1,7 @@
-$evm.instantiate("/ICDC/Service/Email/Email/Email#{ENV['CPV_NAME']}")
+$evm.instantiate("/Configuration/Email/Clone")
 
 def send_email(service, ips)
-  attributes = $evm.object("/ICDC/Service/Email/Email/Email#{ENV['CPV_NAME']}").attributes
+  attributes = $evm.object("/Configuration/Email/Clone").attributes
   user = service.evm_owner
   to = user.email
   footer = attributes["footer"]
