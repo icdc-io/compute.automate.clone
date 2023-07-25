@@ -4,9 +4,9 @@ version: 1.0
 object:
   attributes:
     name: StateMachines
-    description:
-    display_name:
-    priority:
-    enabled:
-    ancestry: 26000000000439/26000000000440/26000000000441
+    description: 
+    display_name: 
+    priority: 
+    enabled: 
+    ancestry: 26000000000439/26000000000579/26000000000580
     relative_path: Service/Provisioning/StateMachines
