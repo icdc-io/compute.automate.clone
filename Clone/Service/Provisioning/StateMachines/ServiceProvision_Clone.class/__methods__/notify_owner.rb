@@ -1,7 +1,7 @@
-$evm.instantiate("/Configuration/Email/Clone")
+$evm.instantiate("/Configuration/Email/ServiceActions")
 
 def send_email(service, ips)
-  attributes = $evm.object("/Configuration/Email/Clone").attributes
+  attributes = $evm.object("/Configuration/Email/ServiceActions").attributes
   user = service.evm_owner
   to = user.email
   footer = attributes["footer"]
