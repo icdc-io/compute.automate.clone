@@ -12,15 +12,14 @@ module Clone
               @handle = handle
               vms_names = $evm.get_state_var(:vms_names)
               @vms = @handle.vmdb(:Vm).where(:name => vms_names)
-              source_vm_ids = @vms.map { |vm| vm.name =~ /_(\d*)-/; $1 }
+              source_vm_ids = @vms.map { |vm| vm.name.match(%r{_(\d*)-})[1] }
               @source_vms = @handle.vmdb(:Vm).where(:id => source_vm_ids)
               @network_manager = @vms[0].ext_management_system.try(:network_manager)
             end
 
             def update_security_groups
               @vms.each do |vm|
-                vm.name =~ /_(\d*)-/
-                source_vm = @source_vms.find { |s_vm| s_vm.id == $1.to_i }
+                source_vm = @source_vms.find { |s_vm| s_vm.id == vm.name.match(%r{_(\d*)-})[1].to_i }
                 copy_security_groups(source_vm, vm)
               end
             end
