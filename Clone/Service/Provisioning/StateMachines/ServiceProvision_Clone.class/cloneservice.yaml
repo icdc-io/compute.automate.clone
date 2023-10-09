@@ -24,8 +24,9 @@ object:
   - register_dhcp:
       value: METHOD::register_dhcp
       max_retries: '100'
+  - change_security_group:
+      value: METHOD::change_security_group
   - post_provisioning:
       value: METHOD::post_provisioning
   - notify_owner:
       value: METHOD::notify_owner
-      max_retries: '100'

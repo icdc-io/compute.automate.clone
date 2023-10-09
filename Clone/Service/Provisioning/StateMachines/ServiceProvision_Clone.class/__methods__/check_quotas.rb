@@ -3,16 +3,16 @@ begin
   source = service.tenant.combined_quotas
   
   available = {
-                :cpu                 => source[:cpu_allocated][:available].to_i,
-                :memory              => source[:mem_allocated][:available].to_s(:human_size).to_i, 
-                :storage             => (source[:storage_allocated][:available].to_f / 2**(10*3)).to_i
+                :cpu     => source[:cpu_allocated][:available].to_i,
+                :memory  => source[:mem_allocated][:available].to_s(:human_size).to_i, 
+                :storage => (source[:storage_allocated][:available].to_f / 2**(10*3)).to_i
               }
   $evm.log("info", "Quota available: (:cpu=>#{available[:cpu]}, :memory=>#{available[:memory]} , storage=>#{available[:storage]})" )
 
   requested = {
-                :cpu                 => service.options[:dialog]["dialog_number_of_sockets"].to_i,
-                :memory              => (service.options[:dialog]["dialog_vm_memory"].to_f / 2**(10*1)).to_i, 
-                :storage             => service.options[:dialog]["dialog_system_disk_size"].to_i
+                :cpu     => service.options[:dialog]["dialog_number_of_sockets"].to_i * service.options[:dialog]["dialog_cores_per_socket"].to_i,
+                :memory  => (service.options[:dialog]["dialog_vm_memory"].to_f / 2**(10*1)).to_i, 
+                :storage => service.options[:dialog]["dialog_system_disk_size"].to_i
               }
   $evm.log("info", "requested: (:cpu=>#{requested[:cpu]}, :memory=>#{requested[:memory]} , storage=>#{requested[:storage]})" )   
 rescue => error
