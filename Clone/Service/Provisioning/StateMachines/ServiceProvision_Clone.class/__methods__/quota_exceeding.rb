@@ -1,12 +1,14 @@
-$evm.instantiate("/Platform/Configuration/Email/ServiceActions")
+$evm.instantiate("/Operator/Configuration/Email/Default")
+$evm.instantiate("/Operator/Configuration/Location/Default")
 
 def quota_exceeding_email(service)
-  attributes = $evm.object("/Platform/Configuration/Email/ServiceActions").attributes
+  email_attributes = $evm.object("/Operator/Configuration/Email/Default").attributes
+  cpv_domain = $evm.object("/Operator/Configuration/Location/Default").attributes['cpv_domain']
   to = service.evm_owner_email
   user = $evm.vmdb(:User).find_by(:email => to)
-  footer = attributes["footer"].to_s
-  from = attributes["from"].to_s
-  miq_help = attributes["miq_help"].to_s
+  footer = email_attributes["signature"].to_s
+  from = email_attributes["from"].to_s
+  miq_help = "https://help.#{cpv_domain}"
   link_help_clone = "#{miq_help}/compute/ru/Use_of_the_Services/Configuration/Clone_Service.html"
   subject = "[#{ENV['CPV_NAME']}.IO] Cloning of the service"
   body = "<h3>Hello, #{user.name}!</h3>"
