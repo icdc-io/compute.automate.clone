@@ -4,14 +4,14 @@ module Clone
       module Provisioning
         module StateMachines
           class NotifyOwner
-			def initialize(service, ips, handle)
+ 	    def initialize(service, ips, handle)
               @handle = handle
-			  @service = service
+	      @service = service
               @ips = ips
-			  @handle.instantiate("/Operator/Configuration/Email/Default")
-			  @handle.instantiate("/Operator/Configuration/Location/Default")
+	      @handle.instantiate("/Operator/Configuration/Email/Default")
+	      @handle.instantiate("/Operator/Configuration/Location/Default")
               email_attributes = @handle.object("/Operator/Configuration/Email/Default").attributes
-  			  @cpv_domain = @handle.object("/Operator/Configuration/Location/Default").attributes['cpv_domain']
+  	      @cpv_domain = @handle.object("/Operator/Configuration/Location/Default").attributes['cpv_domain']
               @footer = email_attributes["signature"].to_s
               @location = @service.region_description.downcase
             end
@@ -28,17 +28,17 @@ module Clone
             def main_links
               miq_help = "https://help.#{@cpv_domain}"
               new_service_id = @service.id
-			  @link_help_conn = "#{miq_help}/compute/ru/Use_of_the_Services/VM/Service_Access.html"
- 			  @link_help_clone = "#{miq_help}/compute/ru/Use_of_the_Services/Configuration/Clone_Service.html"
-  			  @link_service = "https://compute.#{@location}.#{ENV['CPV_NAME'].downcase}.io/ui/service/services/#{new_service_id}"
+	      @link_help_conn = "#{miq_help}/compute/ru/Use_of_the_Services/VM/Service_Access.html"
+ 	      @link_help_clone = "#{miq_help}/compute/ru/Use_of_the_Services/Configuration/Clone_Service.html"
+  	      @link_service = "https://compute.#{@location}.#{ENV['CPV_NAME'].downcase}.io/ui/service/services/#{new_service_id}"
             end
             
             def email_params
               @user = @service.evm_owner
-  			  @to = @user.email
-  			  @from = @handle.root['from']
+  	      @to = @user.email
+  	      @from = @handle.root['from']
               source_service = @handle.vmdb(:Service).find(@handle.root['dialog_src_service_id'])
-  			  @subject = "[#{ENV['CPV_NAME']}.IO] Cloning of the service - #{source_service.name}"
+  	      @subject = "[#{ENV['CPV_NAME']}.IO] Cloning of the service - #{source_service.name}"
               @body = message_body
             end
             
@@ -96,3 +96,4 @@ else
   service.vms[0].ext_management_system.refresh
   network_manager.refresh
 end
+
