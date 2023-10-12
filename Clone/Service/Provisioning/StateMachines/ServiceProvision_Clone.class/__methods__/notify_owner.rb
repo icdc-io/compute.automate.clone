@@ -4,7 +4,10 @@ module Clone
       module Provisioning
         module StateMachines
           class NotifyOwner
-			def initialize
+			def initialize(service, ips, handle)
+              @handle = handle
+			  @service = service
+              @ips = ips
 			  @handle.instantiate("/Operator/Configuration/Email/Default")
 			  @handle.instantiate("/Operator/Configuration/Location/Default")
               email_attributes = @handle.object("/Operator/Configuration/Email/Default").attributes
@@ -79,17 +82,17 @@ module Clone
   end
 end
 
-@handle = $evm
-task = @handle.root['service_template_provision_task']
-@service = task.destination
-@ips = @service.vms.collect(&:ipaddresses).flatten.join(',')
+handle = $evm
+task = handle.root['service_template_provision_task']
+service = task.destination
+ips = service.vms.collect(&:ipaddresses).flatten.join(',')
 
-unless @ips.empty?
-  Clone::Automation::Service::Provisioning::StateMachines::NotifyOwner.new.main.send_email
+unless ips.empty?
+  Clone::Automation::Service::Provisioning::StateMachines::NotifyOwner.new(service, ips, handle).send_email
 else
-  network_manager = @service.vms[0].ext_management_system.try(:network_manager)
-  @handle.root['ae_result'] = 'retry'
-  @handle.root['ae_retry_interval'] = 3.minute
-  @service.vms[0].ext_management_system.refresh
+  network_manager = service.vms[0].ext_management_system.try(:network_manager)
+  handle.root['ae_result'] = 'retry'
+  handle.root['ae_retry_interval'] = 3.minute
+  service.vms[0].ext_management_system.refresh
   network_manager.refresh
 end
