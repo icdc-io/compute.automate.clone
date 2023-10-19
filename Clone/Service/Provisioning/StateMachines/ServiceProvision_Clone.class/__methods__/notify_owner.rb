@@ -8,10 +8,10 @@ module Clone
               @handle = handle
 	      @service = service
               @ips = ips
-	      @handle.instantiate("/Operator/Configuration/Email/Default")
-	      @handle.instantiate("/Operator/Configuration/Location/Default")
-              email_attributes = @handle.object("/Operator/Configuration/Email/Default").attributes
-  	      @cpv_domain = @handle.object("/Operator/Configuration/Location/Default").attributes['cpv_domain']
+	      @handle.instantiate("/Configuration/Email/Default")
+	      @handle.instantiate("/Configuration/Location/Default")
+              email_attributes = @handle.object("/Configuration/Email/Default").attributes
+  	      @cpv_domain = @handle.object("/Configuration/Location/Default").attributes['cpv_domain']
               @footer = email_attributes["signature"].to_s
               @location = @service.region_description.downcase
             end
@@ -30,7 +30,7 @@ module Clone
               new_service_id = @service.id
 	      @link_help_conn = "#{miq_help}/compute/ru/Use_of_the_Services/VM/Service_Access.html"
  	      @link_help_clone = "#{miq_help}/compute/ru/Use_of_the_Services/Configuration/Clone_Service.html"
-  	      @link_service = "https://compute.#{@location}.#{ENV['CPV_NAME'].downcase}.io/ui/service/services/#{new_service_id}"
+  	      @link_service = "https://compute.#{@location}.#{@cpv_domain}/ui/service/services/#{new_service_id}"
             end
             
             def email_params
@@ -38,7 +38,7 @@ module Clone
   	      @to = @user.email
   	      @from = @handle.root['from']
               source_service = @handle.vmdb(:Service).find(@handle.root['dialog_src_service_id'])
-  	      @subject = "[#{ENV['CPV_NAME']}.IO] Cloning of the service - #{source_service.name}"
+  	      @subject = "[#{@cpv_domain.upcase}] Cloning of the service - #{source_service.name}"
               @body = message_body
             end
             
