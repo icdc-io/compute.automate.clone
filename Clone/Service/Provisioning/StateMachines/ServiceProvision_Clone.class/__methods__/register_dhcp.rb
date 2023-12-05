@@ -11,7 +11,7 @@ network_manager = vms[0].ext_management_system.try(:network_manager)
 vms.each do |vm|
   $evm.log(:info, "[ahrechushkin] registering dhcp vm #{vm.inspect}")
   nics = vm.hardware.nics
-  if network_manager && nics.reject{ |nic| nic.lan&.name }.present?
+  if network_manager && nics.none?{ |nic| nic.lan&.name }
     retry_method(network_manager)
   else
     nics.each do |nic|
@@ -20,6 +20,5 @@ vms.each do |vm|
       port = cloud_network.network_ports.detect{ |np| np.device&.id == nic.id }
       retry_method(network_manager) unless port
     end
-    
   end
 end
