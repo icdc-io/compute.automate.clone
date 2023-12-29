@@ -9,8 +9,9 @@ def quota_exceeding_email(service)
   footer = email_attributes["signature"].to_s
   from = email_attributes["from"].to_s
   miq_help = "https://help.#{cpv_domain}"
-  link_help_clone = "#{miq_help}/compute/ru/Use_of_the_Services/Configuration/Clone_Service.html"
-  subject = "[#{cpv_domain.upcase}] Cloning of the service"
+  url_segment = @cpv_domain == 'icdc.io' ? 'Services' : 'Use_of_the_Services'
+  link_help_clone = "#{miq_help}/compute/en/#{url_segment}/Configuration/Clone_Service.html"
+  subject = "[Compute] Cloning of the service"
   body = "<h3>Hello, #{user.name}!</h3>"
   body += "<p>Your request to clone the service #{service.name} can't be complited because the quota has been exceeded.</p>"
   body += "<br><br><a href='#{link_help_clone}'>More info</a> about service cloning.<br><br>"
