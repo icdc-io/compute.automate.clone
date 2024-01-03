@@ -28,9 +28,8 @@ module Clone
             def main_links
               miq_help = "https://help.#{@cpv_domain}"
               new_service_id = @service.id
-              url_segment = @cpv_domain == 'icdc.io' ? 'Services' : 'Use_of_the_Services'
-	      @link_help_conn = "#{miq_help}/compute/en/#{url_segment}/VM/Service_Access.html"
- 	      @link_help_clone = "#{miq_help}/compute/en/#{url_segment}/Configuration/Clone_Service.html"
+	      @link_help_conn = "#{miq_help}/compute/en/Services/VM/Service_Access.html"
+ 	      @link_help_clone = "#{miq_help}/compute/en/Services/Configuration/Clone_Service.html"
   	      @link_service = "https://compute.#{@location}.#{@cpv_domain}/ui/service/services/#{new_service_id}"
             end
             
