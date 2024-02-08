@@ -4,7 +4,7 @@ module Clone
       module Provisioning
         module StateMachines
           class NotifyOwner
- 	    def initialize(service, ips, handle)
+	    def initialize(service, ips, handle)
               @handle = handle
 	      @service = service
               @ips = ips
@@ -28,8 +28,8 @@ module Clone
             def main_links
               miq_help = "https://help.#{@cpv_domain}"
               new_service_id = @service.id
-	      @link_help_conn = "#{miq_help}/compute/ru/Use_of_the_Services/VM/Service_Access.html"
- 	      @link_help_clone = "#{miq_help}/compute/ru/Use_of_the_Services/Configuration/Clone_Service.html"
+	      @link_help_conn = "#{miq_help}/compute/en/Services/VM/Service_Access.html"
+ 	      @link_help_clone = "#{miq_help}/compute/en/Services/Configuration/Clone_Service.html"
   	      @link_service = "https://compute.#{@location}.#{@cpv_domain}/ui/service/services/#{new_service_id}"
             end
             
@@ -38,7 +38,7 @@ module Clone
   	      @to = @user.email
   	      @from = @handle.root['from']
               source_service = @handle.vmdb(:Service).find(@handle.root['dialog_src_service_id'])
-  	      @subject = "[#{@cpv_domain.upcase}] Cloning of the service - #{source_service.name}"
+  	      @subject = "[Compute] Cloning of the service - #{source_service.name}"
               @body = message_body
             end
             
@@ -96,4 +96,3 @@ else
   service.vms[0].ext_management_system.refresh
   network_manager.refresh
 end
-
