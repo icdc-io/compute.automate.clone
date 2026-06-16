@@ -1,5 +1,3 @@
-require 'ovirtsdk4'
-
 def prefix(service)
   service.tenant.name.downcase
 end
