@@ -9,7 +9,7 @@ def reject_cloning_email(service)
   footer = email_attributes["signature"].to_s
   from = email_attributes["from"].to_s
   docs_url = "https://docs.#{cpv_domain}"
-  link_docs_clone = "#{docs_url}/compute/en/dedicated_ui/Services/Configuration/Clone_Service.html"
+  link_docs_clone = "#{docs_url}/en/compute/dedicated_ui/services/configuration/clone_service/"
   subject = "[Compute] Cloning of the service"
   body = "<h3>Hello, #{user.name}!</h3>"
   body += "<p>Your request to clone the service #{service.name} can't be complited while other cloning is running.</p>"
