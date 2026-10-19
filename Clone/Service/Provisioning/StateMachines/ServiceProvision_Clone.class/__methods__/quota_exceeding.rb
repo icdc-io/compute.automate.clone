@@ -12,7 +12,7 @@ def quota_exceeding_email(service)
   link_docs_clone = "#{docs_url}/en/compute/dedicated_ui/services/configuration/clone_service/"
   subject = "[Compute] Cloning of the service"
   body = "<h3>Hello, #{user.name}!</h3>"
-  body += "<p>Your request to clone the service #{service.name} can't be complited because the quota has been exceeded.</p>"
+  body += "<p>Your request to clone the service #{service.name} can't be completed because the quota has been exceeded.</p>"
   body += "<br><br><a href='#{link_docs_clone}'>More info</a> about service cloning.<br><br>"
   body += footer
   $evm.log("info", "Sending email to <#{to}> from <#{from}> subject: <#{subject}>")
