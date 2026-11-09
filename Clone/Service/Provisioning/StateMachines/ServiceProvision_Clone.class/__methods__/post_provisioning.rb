@@ -1,6 +1,6 @@
 task = $evm.root['service_template_provision_task']
 service = task.destination
-service[:visible] = true
+service.visible = true
 owner = $evm.vmdb(:User).find(service.evm_owner_id)
 vms_names = $evm.get_state_var(:vms_names)
 $evm.vmdb(:Vm).where(:name => vms_names).each do |vm|

@@ -4,14 +4,14 @@ module Clone
       module Provisioning
         module StateMachines
           class NotifyOwner
-	    def initialize(service, ips, handle)
+	          def initialize(service, ips, handle)
               @handle = handle
-	      @service = service
+	            @service = service
               @ips = ips
-	      @handle.instantiate("/Configuration/Email/Default")
-	      @handle.instantiate("/Configuration/Location/Default")
+	            @handle.instantiate("/Configuration/Email/Default")
+	            @handle.instantiate("/Configuration/Location/Default")
               email_attributes = @handle.object("/Configuration/Email/Default").attributes
-  	      @cpv_domain = @handle.object("/Configuration/Location/Default").attributes['cpv_domain']
+              @cpv_domain = @handle.object("/Configuration/Location/Default").attributes['cpv_domain']
               @footer = email_attributes["signature"].to_s
               @location = @service.region_description.downcase
             end
@@ -26,19 +26,19 @@ module Clone
             private
             
             def main_links
-              miq_help = "https://help.#{@cpv_domain}"
+              docs_url = "https://docs.#{@cpv_domain}"
               new_service_id = @service.id
-	      @link_help_conn = "#{miq_help}/compute/en/Services/VM/Service_Access.html"
- 	      @link_help_clone = "#{miq_help}/compute/en/Services/Configuration/Clone_Service.html"
-  	      @link_service = "https://compute.#{@location}.#{@cpv_domain}/ui/service/services/#{new_service_id}"
+	            @link_docs_conn = "#{docs_url}/en/compute/dedicated_ui/services/vm/service_access/"
+ 	            @link_docs_clone = "#{docs_url}/en/compute/dedicated_ui/services/configuration/clone_service/"
+              @link_service = "https://compute.#{@location}.#{@cpv_domain}/ui/service/services/#{new_service_id}"
             end
             
             def email_params
               @user = @service.evm_owner
-  	      @to = @user.email
-  	      @from = @handle.root['from']
+  	          @to = @user.email
+  	          @from = @handle.root['from']
               source_service = @handle.vmdb(:Service).find(@handle.root['dialog_src_service_id'])
-  	      @subject = "[Compute] Cloning of the service - #{source_service.name}"
+  	          @subject = "[Compute] Cloning of the service - #{source_service.name}"
               @body = message_body
             end
             
@@ -68,10 +68,10 @@ module Clone
                      </tr>
                      <tr>
                          <td>Other access type.</td>
-                         <td><a href='#{@link_help_conn}'>More info</a></td>
+                         <td><a href='#{@link_docs_conn}'>More info</a></td>
                      </tr>
                    </table>"
-              body += "<br><br><a href='#{@link_help_clone}'>More info</a> about service cloning.<br><br>"
+              body += "<br><br><a href='#{@link_docs_clone}'>More info</a> about service cloning.<br><br>"
               body += @footer.to_s
               body
             end
